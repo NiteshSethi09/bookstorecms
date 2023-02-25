@@ -1,28 +1,17 @@
 import { Link } from "react-router-dom";
 import Indicator from "../ui/Indicator";
 import type { Product } from "../../types/products";
-import { AiOutlineSearch } from "react-icons/ai";
 
-const ContentTable = ({ data }: { data: Product[] }) => {
+interface ContentTableProps {
+  data: Product[];
+  search?: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ContentTable = ({ data, search, setSearch }: ContentTableProps) => {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:ml-4 sm:rounded-lg">
-        <div className="bg-white pb-4">
-          <label htmlFor="table-search" className="sr-only">
-            Search
-          </label>
-          <div className="relative mt-1">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <AiOutlineSearch size={20} className="htext-gray-500" />
-            </div>
-            <input
-              type="text"
-              id="table-search"
-              className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 focus:border-blue-500"
-              placeholder="Search for items"
-            />
-          </div>
-        </div>
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
           <thead className="bg-gray-200 text-xs uppercase text-gray-700">
             <tr>

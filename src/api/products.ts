@@ -1,8 +1,12 @@
 import { axiosInstance } from "../utils/axiosInstance";
 
-export async function fetchProducts(pageLimit: string, pageNumber: number) {
+export async function fetchProducts(
+  pageLimit: string,
+  pageNumber: number,
+  title?: string
+) {
   const result = await axiosInstance.get(
-    `/product/get-products?limit=${pageLimit}&page=${pageNumber}`
+    `/product/get-products?limit=${pageLimit}&page=${pageNumber}&title=${title}`
   );
   return result.data;
 }

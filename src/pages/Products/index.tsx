@@ -7,22 +7,26 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import ContentTable from "../../components/ContentTable";
 import Button from "../../components/ui/Button";
 import FormSelect from "../../components/form/FormSelect";
+import SearchBar from "../../components/ui/SearchBar";
+import useDebounce from "../../hooks/useDebounce";
 import { fetchProducts } from "../../api/products";
 import { PageLimit } from "../../types/products";
 
 const Products = () => {
   const [pageLimit, setPageLimit] = useState<PageLimit>("10");
   const [pageNumber, setPageNumber] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebounce<string>(search);
 
   const { data, error, status, isFetching, isLoading } = useQuery({
-    queryKey: ["products", pageLimit, pageNumber],
-    queryFn: () => fetchProducts(pageLimit, pageNumber),
+    queryKey: ["products", debouncedSearch],
+    queryFn: () => fetchProducts(pageLimit, pageNumber, debouncedSearch),
     keepPreviousData: true,
   });
 
-  useEffect(() => {
-    setPageNumber(1);
-  }, [pageLimit]);
+  // useEffect(() => {
+  //   setPageNumber(1);
+  // }, [pageLimit, search]);
 
   const navigate = useNavigate();
 
@@ -44,8 +48,9 @@ const Products = () => {
           Create new entry
         </Button>
       </div>
-      <ContentTable data={data?.data} />
-      <div className="mt-6 flex justify-between">
+      <SearchBar value={search} setValue={setSearch} />
+      <ContentTable data={data?.data} search={search} setSearch={setSearch} />
+      {/* <div className="mt-6 flex justify-between">
         <div className="flex items-center justify-center sm:ml-4">
           <FormSelect
             optionList={["10", "20", "50"]}
@@ -74,7 +79,7 @@ const Products = () => {
             <BsArrowRight size={20} style={{ marginLeft: "8px" }} />
           </Button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
