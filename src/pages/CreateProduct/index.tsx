@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import CustomForm from "../../components/CustomForm";
 import TopNav from "../../components/ui/TopNav";
 import useDebounce from "../../hooks/useDebounce";
+import { createProduct } from "../../api/products";
 
 const categoryOptions = [
   "Career Development",
@@ -24,9 +26,24 @@ const CreateProduct = () => {
   const debouncedOriginalPrice = useDebounce<number>(originalPrice);
   const debouncedOfferPrice = useDebounce<number>(offerPrice);
 
+  const { mutate } = useMutation(createProduct);
+
+  const handleSubmit = () => {
+    mutate({
+      category,
+      description: debouncedDesc,
+      imageUrl,
+      onSale: isOnSale,
+      price: {
+        offerPrice: debouncedOfferPrice,
+        originalPrice: debouncedOriginalPrice,
+      },
+      title: debouncedTitle,
+    });
+  };
   return (
     <>
-      <TopNav />
+      <TopNav onClickHandler={handleSubmit} />
       <div className="mr-0 sm:mr-4">
         <CustomForm
           data={{

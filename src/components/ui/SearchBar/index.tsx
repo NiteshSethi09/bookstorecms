@@ -9,7 +9,7 @@ interface SearchBarProps {
 const SearchBar: FC<SearchBarProps> = ({ setValue, value }) => {
   return (
     <>
-      <div className="bg-white pb-4">
+      <div className="bg-white pb-4 sm:ml-4">
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>

@@ -1,6 +1,8 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import Indicator from "../ui/Indicator";
 import type { Product } from "../../types/products";
+import { deleteProduct } from "../../api/products";
 
 interface ContentTableProps {
   data: Product[];
@@ -9,6 +11,12 @@ interface ContentTableProps {
 }
 
 const ContentTable = ({ data, search, setSearch }: ContentTableProps) => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(deleteProduct, {
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries(["products"]);
+    },
+  });
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:ml-4 sm:rounded-lg">
@@ -102,12 +110,12 @@ const ContentTable = ({ data, search, setSearch }: ContentTableProps) => {
                   >
                     Edit
                   </Link>
-                  <a
-                    href="#"
-                    className="font-medium text-red-600 hover:underline"
+                  <span
+                    className="cursor-pointer font-medium text-red-600 hover:underline"
+                    onClick={() => mutate(item._id)}
                   >
                     Delete
-                  </a>
+                  </span>
                 </td>
               </tr>
             ))}

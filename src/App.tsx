@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
@@ -11,6 +11,7 @@ function App() {
       <Sidebar />
       <div className="p-4 sm:ml-64">
         <Routes>
+          <Route path="/" element={<Navigate to="/admin" />} />
           <Route path="admin">
             <Route path="product-list" element={<Products />} />
             <Route path="product">

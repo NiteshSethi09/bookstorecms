@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import CustomForm from "../../components/CustomForm";
 import Button from "../../components/ui/Button";
 import TopNav from "../../components/ui/TopNav";
-import { fetchProductById } from "../../api/products";
-import { useEffect, useState } from "react";
+import { deleteProduct, fetchProductById } from "../../api/products";
 import useDebounce from "../../hooks/useDebounce";
 
 const categoryOptions = [
@@ -17,10 +17,18 @@ const categoryOptions = [
 ];
 const ProductDetails = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { error, data, isLoading, isFetching } = useQuery({
     queryKey: ["product", productId],
     queryFn: () => fetchProductById(productId!),
+  });
+
+  const { mutate } = useMutation(deleteProduct, {
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries(["products"]);
+    },
   });
 
   const [title, setTitle] = useState<string>(data?.data?.title ?? "");
@@ -64,6 +72,10 @@ const ProductDetails = () => {
 
   if (isLoading || isFetching) {
     return <h1>Fetching...</h1>;
+  }
+
+  if (!data?.data) {
+    return <h1>No data Found</h1>;
   }
 
   const { createdAt, updatedAt } = data?.data;
@@ -122,7 +134,13 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
-          <Button className="flex w-full items-center border text-red-700">
+          <Button
+            className="flex w-full items-center border text-red-700"
+            onClick={() => {
+              mutate(data.data._id);
+              navigate(-1);
+            }}
+          >
             <AiOutlineDelete size={20} style={{ marginRight: "8px" }} />
             Delete this entry
           </Button>

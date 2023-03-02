@@ -5,8 +5,9 @@ import Button from "../Button";
 
 interface TopNavProps {
   title?: string;
+  onClickHandler?: () => void;
 }
-const TopNav: FC<TopNavProps> = ({ title }) => {
+const TopNav: FC<TopNavProps> = ({ title, onClickHandler }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -21,7 +22,12 @@ const TopNav: FC<TopNavProps> = ({ title }) => {
           <p className="text-2xl font-medium">{title ?? "Create an entry"}</p>
         </div>
         <div>
-          <Button className="border bg-blue-600 text-white">Save</Button>
+          <Button
+            onClick={onClickHandler}
+            className="border bg-blue-600 text-white"
+          >
+            Save
+          </Button>
         </div>
       </div>
     </>
