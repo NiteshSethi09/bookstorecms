@@ -4,6 +4,7 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import CreateProduct from "./pages/CreateProduct";
 import Sidebar from "./components/Sidebar";
+import "./styles/globals.css";
 
 function App() {
   return (

@@ -1,13 +1,12 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsArrowLeftShort } from "react-icons/bs";
-import Button from "../Button";
+import { ArrowLeft } from "lucide-react";
 
 interface TopNavProps {
   title?: string;
-  onClickHandler?: () => void;
+  buttonComponent?: JSX.Element;
 }
-const TopNav: FC<TopNavProps> = ({ title, onClickHandler }) => {
+const TopNav: FC<TopNavProps> = ({ title, buttonComponent }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -17,18 +16,11 @@ const TopNav: FC<TopNavProps> = ({ title, onClickHandler }) => {
             className="flex cursor-pointer items-center "
             onClick={() => navigate(-1)}
           >
-            <BsArrowLeftShort size={25} /> Back
+            <ArrowLeft size={18} /> Back
           </p>
           <p className="text-2xl font-medium">{title ?? "Create an entry"}</p>
         </div>
-        <div>
-          <Button
-            onClick={onClickHandler}
-            className="border bg-blue-600 text-white"
-          >
-            Save
-          </Button>
-        </div>
+        <div>{buttonComponent}</div>
       </div>
     </>
   );

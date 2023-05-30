@@ -8,7 +8,8 @@ export interface Product {
     offerPrice: number;
   };
   title: string;
-  _id: string;
+  _id?: string;
+  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
-
-export type PageLimit = "10" | "20" | "50";

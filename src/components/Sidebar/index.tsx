@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { HiBars3BottomLeft, HiOutlineShoppingBag } from "react-icons/hi2";
-import { RxDashboard } from "react-icons/rx";
+import { LayoutDashboard, LogOut, Menu, ShoppingBag } from "lucide-react";
 
 const Sidebar = () => {
   const [openSideBar, setOpenSideBar] = useState<boolean>(false);
@@ -17,7 +16,7 @@ const Sidebar = () => {
         onClick={() => setOpenSideBar((prev) => !prev)}
       >
         <span className="sr-only">Open sidebar</span>
-        <HiBars3BottomLeft size={30} />
+        <Menu size={30} />
       </button>
 
       <aside
@@ -49,7 +48,7 @@ const Sidebar = () => {
                 to="/admin"
                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-300"
               >
-                <RxDashboard
+                <LayoutDashboard
                   size={20}
                   className="text-gray-500 transition duration-75 group-hover:text-gray-900"
                 />
@@ -61,9 +60,9 @@ const Sidebar = () => {
                 to="/admin/product-list"
                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-300"
               >
-                <HiOutlineShoppingBag
+                <ShoppingBag
                   size={20}
-                  className="flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  className="text-gray-500 transition duration-75 group-hover:text-gray-900"
                 />
                 <span className="ml-3 flex-1 whitespace-nowrap">Products</span>
               </NavLink>
@@ -75,43 +74,13 @@ const Sidebar = () => {
                 to="#"
                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-300"
               >
-                <svg
-                  aria-hidden="true"
-                  className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
+                <LogOut
+                  size={20}
+                  className="text-gray-500 transition duration-75 group-hover:text-gray-900"
+                />
                 <span className="ml-3 flex-1 whitespace-nowrap">Sign Out</span>
               </NavLink>
             </li>
-            {/* <li>
-              <a
-                to="#"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
-              </a>
-            </li> */}
           </ul>
         </div>
       </aside>
