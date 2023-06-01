@@ -22,3 +22,8 @@ export async function deleteProductAPI(id: string) {
   });
   return result.data;
 }
+
+export async function updateProductByIdAPI(product: Product) {
+  const result = await axiosInstance.patch("/product/update-by-id", product);
+  return result.data;
+}

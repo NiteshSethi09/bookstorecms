@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { fetchProductsAPI } from "@/api/products";
 import ContentTable from "@/components/ContentTable";
 import { Button } from "@/components/ui/button";
-import { columns } from "@/components/ui/columns";
+import { productTableColumns } from "@/components/ui/columns";
 
 const Products = () => {
   const { data, error, status, isFetching, isLoading } = useQuery({
@@ -34,7 +34,11 @@ const Products = () => {
           Create new entry
         </Button>
       </div>
-      <ContentTable data={data?.data} columns={columns} />
+      <ContentTable
+        data={data?.data}
+        columns={productTableColumns}
+        searchColumn="title"
+      />
     </>
   );
 };

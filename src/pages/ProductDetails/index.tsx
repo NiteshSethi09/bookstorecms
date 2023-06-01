@@ -3,7 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash, UploadCloud } from "lucide-react";
 
-import { deleteProductAPI, fetchProductById } from "@/api/products";
+import {
+  deleteProductAPI,
+  fetchProductById,
+  updateProductByIdAPI,
+} from "@/api/products";
 import TopNav from "@/components/TopNav";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -38,10 +42,16 @@ const ProductDetails = () => {
     onSuccess: (data) => setProductData(data.data),
   });
 
-  const { mutate } = useMutation(deleteProductAPI, {
+  const { mutate: mutateDelete } = useMutation(deleteProductAPI, {
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries(["products"]);
       navigate(-1);
+    },
+  });
+
+  const { mutate: mutateUpdate } = useMutation(updateProductByIdAPI, {
+    onSuccess: async (data, variables, context) => {
+      console.log(data);
     },
   });
 
@@ -85,7 +95,11 @@ const ProductDetails = () => {
     <>
       <TopNav
         title={data?.data?.title}
-        buttonComponent={<Button variant="secondary">Save</Button>}
+        buttonComponent={
+          <Button variant="secondary" onClick={() => mutateUpdate(productData)}>
+            Save
+          </Button>
+        }
       />
       <div className="sm:flex">
         <form className={`mb-4 w-full border p-4 sm:mx-4 sm:mb-0`}>
@@ -282,7 +296,7 @@ const ProductDetails = () => {
           </div>
           <Button
             className="flex w-full items-center border text-red-700"
-            onClick={() => mutate(productData._id!)}
+            onClick={() => mutateDelete(productData._id!)}
             type="button"
             variant="outline"
           >
