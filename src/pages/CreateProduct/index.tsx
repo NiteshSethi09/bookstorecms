@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash, UploadCloud } from "lucide-react";
 
 import { createProductAPI } from "@/api/products";
@@ -39,9 +39,11 @@ const CreateProduct = () => {
     imageUrl: "",
   });
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation(createProductAPI, {
-    onSuccess(data, variables, context) {
-      console.log(data);
+    async onSuccess() {
+      await queryClient.invalidateQueries(["products"]);
     },
   });
 

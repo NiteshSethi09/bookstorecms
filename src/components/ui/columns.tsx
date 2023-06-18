@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
@@ -18,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { AspectRatio } from "./aspect-ratio";
 import type { Product } from "@/types/products";
 import type { Order } from "@/types/orders";
+import { deleteProductAPI } from "@/api/products";
 
 export const productTableColumns: ColumnDef<Product>[] = [
   {
@@ -79,22 +81,31 @@ export const productTableColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "action",
     header: "Action",
-    cell: ({ row }) => (
-      <>
-        <Link
-          to={`/admin/product/${row.original._id}`}
-          className="mr-4 font-medium text-blue-600 hover:underline"
-        >
-          Edit
-        </Link>
-        <span
-          className="cursor-pointer font-medium text-red-600 hover:underline"
-          // onClick={() => mutate(item._id)}
-        >
-          Delete
-        </span>
-      </>
-    ),
+    cell: ({ row }) => {
+      const queryClient = useQueryClient();
+
+      const { mutate } = useMutation(deleteProductAPI, {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries(["products"]);
+        },
+      });
+      return (
+        <>
+          <Link
+            to={`/admin/product/${row.original._id}`}
+            className="mr-4 font-medium text-blue-600 hover:underline"
+          >
+            Edit
+          </Link>
+          <span
+            className="cursor-pointer font-medium text-red-600 hover:underline"
+            onClick={() => mutate(row.original._id!)}
+          >
+            Delete
+          </span>
+        </>
+      );
+    },
   },
 ];
 
