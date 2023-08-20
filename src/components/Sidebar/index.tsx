@@ -1,28 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  LayoutDashboard,
-  LogIn,
-  LogOut,
-  Menu,
-  ShoppingBag,
-} from "lucide-react";
-import { useDispatch } from "react-redux";
-
-import { logout, type User } from "@/redux/User/slice";
-import { AppDispatch } from "@/redux/store";
+import { LayoutDashboard, Menu, ShoppingBag } from "lucide-react";
 
 const Sidebar = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const [openSideBar, setOpenSideBar] = useState<boolean>(false);
-  const accesstoken: string = (
-    JSON.parse(localStorage.getItem("bookstoreuser")!) as User
-  )?.accessToken!;
-
-  const hanldeLogout = async () => {
-    await dispatch(logout());
-    location.href = "/admin/login";
-  };
 
   return (
     <>
@@ -86,38 +67,6 @@ const Sidebar = () => {
                 <span className="ml-3 flex-1 whitespace-nowrap">Products</span>
               </NavLink>
             </li>
-          </ul>
-          <ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
-            {accesstoken !== undefined ? (
-              <li>
-                <NavLink
-                  to="#"
-                  onClick={hanldeLogout}
-                  className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-300"
-                >
-                  <LogOut
-                    size={20}
-                    className="text-gray-500 transition duration-75 group-hover:text-gray-900"
-                  />
-                  <span className="ml-3 flex-1 whitespace-nowrap">
-                    Sign Out
-                  </span>
-                </NavLink>
-              </li>
-            ) : (
-              <li>
-                <NavLink
-                  to="/admin/login"
-                  className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-300"
-                >
-                  <LogIn
-                    size={20}
-                    className="text-gray-500 transition duration-75 group-hover:text-gray-900"
-                  />
-                  <span className="ml-3 flex-1 whitespace-nowrap">Sign In</span>
-                </NavLink>
-              </li>
-            )}
           </ul>
         </div>
       </aside>
