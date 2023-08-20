@@ -6,6 +6,9 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(function (config) {
-  config.data = { ...config.data, role: "ADMIN" };
+  if (!(config.data instanceof FormData)) {
+    config.data = { ...config.data, role: "ADMIN" };
+  }
+
   return config;
 });

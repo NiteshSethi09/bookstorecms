@@ -7,20 +7,19 @@ const Dashboard = () => {
   const { error, data, isLoading, isFetching } = useQuery({
     queryKey: ["orders"],
     queryFn: () => fetchOrders(),
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <>
-      <ContentTable
-        data={data}
-        columns={orderTableColumns}
-        searchColumn="_id"
-      />
+      <div className="p-4 sm:ml-64">
+        <ContentTable
+          data={data}
+          columns={orderTableColumns}
+          searchColumn="_id"
+        />
+      </div>
     </>
   );
 };

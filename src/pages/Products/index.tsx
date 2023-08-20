@@ -25,20 +25,22 @@ const Products = () => {
   }
   return (
     <>
-      <div className="mb-4 flex justify-end sm:ml-4">
-        <Button
-          variant="secondary"
-          onClick={() => navigate("/admin/product/create")}
-        >
-          <Plus size={20} className="mr-2" />
-          Create new entry
-        </Button>
+      <div className="p-4 sm:ml-64">
+        <div className="mb-4 flex justify-end sm:ml-4">
+          <Button
+            variant="secondary"
+            onClick={() => navigate("/admin/product/create")}
+          >
+            <Plus size={20} className="mr-2" />
+            Create new entry
+          </Button>
+        </div>
+        <ContentTable
+          data={data?.data}
+          columns={productTableColumns}
+          searchColumn="title"
+        />
       </div>
-      <ContentTable
-        data={data?.data}
-        columns={productTableColumns}
-        searchColumn="title"
-      />
     </>
   );
 };

@@ -1,29 +1,36 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Products from "./pages/Products";
-import ProductDetails from "./pages/ProductDetails";
-import CreateProduct from "./pages/CreateProduct";
-import Dashboard from "./pages/Dashboard";
-import Sidebar from "./components/Sidebar";
+const Products = lazy(() => import("@/pages/Products"));
+const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
+const CreateProduct = lazy(() => import("@/pages/CreateProduct"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./styles/globals.css";
 
 function App() {
   return (
     <>
-      <Sidebar />
-      <div className="p-4 sm:ml-64">
+      <Suspense fallback={"Loading..."}>
         <Routes>
-          <Route path="/" element={<Navigate to="/admin" />} />
-          <Route path="admin">
-            <Route element={<Dashboard />} index />
-            <Route path="product-list" element={<Products />} />
-            <Route path="product">
-              <Route path=":productId" element={<ProductDetails />} />
-              <Route path="create" element={<CreateProduct />} />
+          <Route path="*" element={<NotFound />} />
+
+          {/* All protected routes in this Route component */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Navigate to="/admin" />} />
+            <Route path="admin">
+              <Route element={<Dashboard />} index />
+              <Route path="product-list" element={<Products />} />
+              <Route path="product">
+                <Route path=":productId" element={<ProductDetails />} />
+                <Route path="create" element={<CreateProduct />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
-      </div>
+      </Suspense>
     </>
   );
 }
